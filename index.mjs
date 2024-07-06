@@ -46,11 +46,15 @@ app.post('/students',(req,res)=>{
 //EndPoint to update an existing student
 app.put('/students/:id',(req,res)=>{
     const students = readStudents()
-    const student = students.find(s =>s.id===parseInt(req.body.id))
+    const student = students.find(s =>s.id===parseInt(req.params.id))
     if(!student) return res.status(404).send('Student not found')
 
     student.name = req.body.name || student.name
     student.grades = req.body.grades || student.grades
+
+    writeStudents(students);
+
+    res.send(student)
 })
 
 //EndPoint to delete an existing student
