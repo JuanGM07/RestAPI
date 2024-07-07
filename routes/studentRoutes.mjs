@@ -1,17 +1,20 @@
 import express from "express"
-const router = express.Router()
 import {
     getAllStudentsHandler,
     getStudentByIdHandler,
     createStudentHandler,
     updateStudentHandler,
-    deleteStudentHanlder
+    deleteStudentHandler
 } from '../controllers/studentController.mjs'
+import {validateStudentMiddleware} from '../middleware/validateRequest.mjs'
+
+const router = express.Router()
+
 
 router.get('/', getAllStudentsHandler)
 router.get('/:id', getStudentByIdHandler)
-router.post('/', createStudentHandler)
-router.put('/:id', updateStudentHandler)
-router.delete('/:Id', deleteStudentHanlder)
+router.post('/', validateStudentMiddleware, createStudentHandler)
+router.put('/:id', validateStudentMiddleware, updateStudentHandler)
+router.delete('/:Id', deleteStudentHandler)
 
 export default router
